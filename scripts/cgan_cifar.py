@@ -113,15 +113,10 @@ def train_cgan(loss_function, num_epochs=100):
             torch.save(generator.state_dict(),
                        'saved_models/cifar/gen_' + str(epoch) + '_' + str(num_epochs) + '.pt')
             fake_data = fake_data.data.cpu().numpy()
-            filename = 'fake_data/cifar/fake_' + str(epoch) + '.csv'
-            np.savetxt(filename, fake_data, delimiter=',')
             img_tensor = to_image_tensor(fake_data)
             plotter.on_new_image(label='fake data ', img_tensor=img_tensor, global_step=epoch)
     torch.save(discriminator.state_dict(), 'saved_models/cifar/discr_final.pt')
     torch.save(generator.state_dict(), 'saved_models/cifar/gen_final.pt')
-    filename = 'fake_data/cifar/fake_data.csv'
-    np.savetxt(filename, fake_data, delimiter=',')
-    return d_losses, g_losses
 
 
-d_losses, g_losses = train_cgan(loss_function, num_epochs)
+train_cgan(loss_function, num_epochs)
